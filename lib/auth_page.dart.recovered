@@ -1,0 +1,437 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:desktop_webview_auth/desktop_webview_auth.dart';
+import 'package:desktop_webview_auth/desktop_webview_auth.dart';
+import 'package:desktop_webview_auth/google.dart';
+import 'registration_wizard.dart';
+  State<AuthPage> createState() => _AuthPageState();
+  const AuthPage({super.key});
+class AuthPage extends StatefulWidget {
+class _AuthPageState extends State<AuthPage> {
+  State<AuthPage> createState() => _AuthPageState();
+  @override
+  State<AuthPage> createState() => _AuthPageState();
+class _AuthPageState extends State<AuthPage> {
+class _AuthPageState extends State<AuthPage> {
+      backgroundColor: const Color(0xFF111111),
+  bool _obscurePassword = true;
+  Widget build(BuildContext context) {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Wraps the content tightly
+              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+                // Logo (wrapped in OverflowBox to naturally ignore its invisible bottom padding without breaking layout)
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+                          height: 160, // Layout space given to logo
+                // Logo (wrapped in OverflowBox to naturally ignore its invisible bottom padding without breaking layout)
+                            maxHeight: 240, // Full visual size of the logo
+                            alignment: Alignment.topCenter,
+                            child: Transform.translate(
+          alignment: const Alignment(0.0, -0.3),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Wraps the content tightly
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignmen
+        case 'email-already-in-use':
+          return 'This email address is already registered. Try logging in.';
+        case 'invalid-email':
+          return 'Please enter a valid email address.';
+        case 'weak-password':
+          return 'Your password is too weak. Please use at least 6 characters.';
+        case 'operation-not-allowed':
+          return 'Sign-in option not enabled. Please contact support.';
+        case 'network-request-failed':
+          return 'Network connection error. Please check your internet connection.';
+        case 'credential-already-in-use':
+          return 'This Google account is already linked to another user.';
+        case 'account-exists-with-different-credential':
+          return 'An account already exists with this email but using a different sign-in method.';
+        default:
+
+
+
+
+
+
+
+
+
+
+                            ),
+                          ),
+                        ),
+                      ),
+                      
+                      // Subtitle
+                      const Text(
+                        'Sign in to continue',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFFB3B3B3),
+                          fontSize: 16,
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 24), // Balanced gap to look clean but tight
+                      
+                      // Email Field
+                      _buildTextField(
+                        hintText: 'Email',
+                        icon: Icons.email_outlined,
+                      ),
+                      
+                      const SizedBox(height: 8), // Tight gap between inputs
+                      
+                      // Password Field
+                      _buildTextField(
+                        hintText: 'Password',
+                        icon: Icons.lock_outline,
+                        isPassword: true,
+                      ),
+                      
+                      const SizedBox(height: 24), // Gap above button
+                      
+                      // Sign In Button
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4285F4), // Bright Google blue
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Sign In',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                          const Expanded(child: Divider(color: Color(0xFF333333), thickness: 1)),
+                        ],
+                      const SizedBox(height: 16), // Reduced gap above divider
+                      
+                      const SizedBox(height: 16), // Reduced gap below divider
+                      Row(
+                      // Google Sign In Button
+                          const Expanded(child: Divider(color: Color(0xFF333333), thickness: 1)),
+                        onPressed: () async {
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                            if (googleUser == null) return;
+                            final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                              // Replace this with your actual Web Client ID from Firebase Console / Google Cloud Console
+                              const String webClientId = 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com';
+                              idToken: googleAuth.idToken,
+                              final result = await DesktopWebviewAuth.signIn(
+                            final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                                  clientId: webClientId,
+                                  redirectUri: 'https://postmark-telemetry.firebaseapp.com/__/auth/handler',
+                              Navigator.push(
+                                context,
+                              if (result == null) return;
+                                  builder: (context) => RegistrationWizard(userCredential: userCredential),
+                              credential = GoogleAuthProvider.credential(
+                                accessToken: result.accessToken,
+                                idToken: result.idToken,
+                                  MaterialPageRoute(
+                                    builder: (context) => RegistrationWizard(userCredential: userCredential),
+                              final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                                serverClientId: '1063270362786-jq4jj1hejaqjb48e5o2hjepcs10juhtr.apps.googleusercontent.com',
+                              final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                              credential = GoogleAuthProvider.credential(
+                              final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                              credential = GoogleAuthProvider.credential(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: const BorderSide(color: Color(0xFF4D4D4D), width: 1.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          } finally {
+                            if (mounted) setState(() => _isLoading = false);
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4285F4), // Bright Google blue
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/120px-Google_%22G%22_logo.svg.png',
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                              errorBuilder: (context, error, stackTrace) => const Icon(Icons.g_mobiledata, color: Colors.white, size: 32),
+                            borderRadius: BorderRadius.circular(8),
+                            const SizedBox(width: 12),
+                            const Text(
+                              'Continue with Google',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Text(
+                                'Sign In',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                      const SizedBox(height: 16), // Approx 4mm gap
+                        textAlign: TextAlign.center,
+                      const SizedBox(height: 16), // Reduced gap above divider
+                          color: Color(0xFF808080),
+                          fontSize: 13,
+                          height: 1.4,
+                        children: [
+                      ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({required String hintText, required IconData icon, bool isPassword = false}) {
+    return TextField(
+      obscureText: isPassword ? _obscurePassword : false,
+      style: const TextStyle(color: Colors.white, fontSize: 16),
+                        onPressed: () async {
+                          try {
+        hintStyle: const TextStyle(color: Color(0xFF808080), fontSize: 16),
+        prefixIcon: Icon(icon, color: const Color(0xFF999999)),
+                            if (!kIsWeb && Platform.isWindows) {
+                              const String webClientId = '1063270362786-jq4jj1hejaqjb48e5o2hjepcs10juhtr.apps.googleusercontent.com';
+                              
+                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  color: const Color(0xFF808080),
+                                  clientId: webClientId,
+                                  redirectUri: 'https://postmark-telemetry.firebaseapp.com/__/auth/handler',
+                                ),
+                    _obscurePassword = !_obscurePassword;
+                  });
+                              if (result == null) return;
+              )
+                              credential = GoogleAuthProvider.credential(
+                                accessToken: result.accessToken,
+                                idToken: result.idToken,
+          borderSide: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5), 
+                            } else {
+                              final googleSignIn = GoogleSignIn(
+                                serverClientId: '1063270362786-jq4jj1hejaqjb48e5o2hjepcs10juhtr.apps.googleusercontent.com',
+          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                              // Force Google Account Picker to show every time
+        contentPadding: const EdgeInsets.symmetric(vertical: 18),
+                                serverClientId: '1063270362786-jq4jj1hejaqjb48e5o2hjepcs10juhtr.apps.googleusercontent.com',
+                              final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+                              // Force Google Account Picker to show every time
+                              final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                              credential = GoogleAuthProvider.credential(
+                              final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+                                idToken: googleAuth.idToken,
+                                setState(() => _isGoogleLoading = false);
+                                return;
+                              }
+                            final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                              credential = GoogleAuthProvider.credential(
+                            final String email = userCredential.user?.email ?? '';
+                                idToken: googleAuth.idToken,
+                            // Check if profile is completed
+                            final querySnapshot = await FirebaseFirestore.instance
+                                  builder: (context) => RegistrationWizard(userCredential: userCredential),
+                            final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                                .limit(1)
+                            final String email = userCredential.user?.email ?? '';
+                          } catch (e) {
+                            if (querySnapshot.docs.isNotEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                              if (mounted) {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                          backgroundColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: const BorderSide(color: Color(0xFF4D4D4D), width: 1.0),
+                          shape: RoundedRectangleBorder(
+                              // Profile incomplete! Go to complete it
+                              if (mounted) {
+                                  MaterialPageRoute(builder: (context) => const HomePage()),
+                                  (route) => false,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                                    builder: (context) => RegistrationWizard(userCredential: userCredential),
+                            Image.network(
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/120px-Google_%22G%22_logo.svg.png',
+                              if (mounted) {
+                              errorBuilder: (context, error, stackTrace) => const Icon(Icons.g_mobiledata, color: Colors.white, size: 32),
+                                  context,
+                            const SizedBox(width: 12),
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                              'Continue with Google',
+                              style: TextStyle(
+                                color: Colors.white,
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      const SizedBox(height: 16), // Approx 4mm gap
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                              'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/120px-Google_%22G%22_logo.svg.png',
+                        textAlign: TextAlign.center,
+                              errorBuilder: (context, error, stackTrace) => const Icon(Icons.g_mobiledata, color: Colors.white, size: 32),
+                          color: Color(0xFF808080),
+                            const SizedBox(width: 12),
+                            const Text(
+                              'Continue with Google',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+  Widget _buildTextField({required String hintText, required IconData icon, bool isPassword = false}) {
+                      const SizedBox(height: 16), // Approx 4mm gap
+      obscureText: isPassword ? _obscurePassword : false,
+      style: const TextStyle(color: Colors.white, fontSize: 16),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Color(0xFF808080), fontSize: 16),
+        prefixIcon: Icon(icon, color: const Color(0xFF999999)),
+                          color: Color(0xFF808080),
+                          fontSize: 13,
+                          height: 1.4,
+                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  color: const Color(0xFF808080),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              )
+            : null,
+  Widget _buildTextField({required String hintText, required IconData icon, bool isPassword = false}) {
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5), 
+      style: const TextStyle(color: Colors.white, fontSize: 16),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        hintStyle: const TextStyle(color: Color(0xFF808080), fontSize: 16),
+        prefixIcon: Icon(icon, color: const Color(0xFF999999)),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18),
+            ? IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  color: const Color(0xFF808080),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+  Widget _buildTextField({
+    required String hintText,
+    required IconData icon,
+    required TextEditingController controller,
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5), 
+    return TextField(
+        focusedBorder: OutlineInputBorder(
+      obscureText: isPassword ? _obscurePassword : false,
+          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 18),
+        hintStyle: const TextStyle(color: Color(0xFF808080), fontSize: 16),
+        prefixIcon: Icon(icon, color: const Color(0xFF999999)),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  color: const Color(0xFF808080),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              )
+            : null,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5), 
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+        case 'email-already-in-use':
+          return 'This email address is already registered. Try logging in.';
+        case 'invalid-email':
+          return 'Please enter a valid email address.';
+        case 'weak-password':
+          return 'Your password is too weak. Please use at least 6 characters.';
+        case 'operation-not-allowed':
+          return 'Sign-in option not enabled. Please contact support.';
+        case 'network-request-failed':
+          return 'Network connection error. Please check your internet connection.';
+        case 'credential-already-in-use':
+          return 'This Google account is already linked to another user.';
+        case 'account-exists-with-different-credential':
+          return 'An account already exists with this email but using a different sign-in method.';
+        default:
+          if (message.contains(']')) {
+            return message.substring(message.indexOf(']') + 1).trim();
+          }
+          return e.message ?? 'An unexpected authentication error occurred.';
+      }
+    }
+
+    if (e is FirebaseException) {
+      if (e.code == 'permission-denied') {
+        return 'You do not have permission to perform this action.';
+      }
+      if (message.contains(']')) {
+        return message.substring(message.indexOf(']') + 1).trim();
+      }
+      return e.message ?? 'A database error occurred. Please try again.';
+    }
+
+    if (message.contains(']')) {
+      return message.substring(message.indexOf(']') + 1).trim();
+    }
+    
+    if (message.contains('firebase') || message.contains('Firebase')) {
+      return 'An unexpected connection error occurred. Please try again.';
+    }
+
+    return message;
+  }
+}

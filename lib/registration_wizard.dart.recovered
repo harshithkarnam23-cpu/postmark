@@ -1,0 +1,592 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+class RegistrationWizard extends StatefulWidget {
+  final UserCredential userCredential; // Google Sign-In user
+class RegistrationWizard extends StatefulWidget {
+  const RegistrationWizard({super.key, required this.userCredential});
+
+  const RegistrationWizard({super.key, required this.userCredential});
+  State<RegistrationWizard> createState() => _RegistrationWizardState();
+  @override
+  State<RegistrationWizard> createState() => _RegistrationWizardState();
+class _RegistrationWizardState extends State<RegistrationWizard> {
+  final PageController _pageController = PageController();
+class _RegistrationWizardState extends State<RegistrationWizard> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+  // Form Controllers & State
+  final _usernameController = TextEditingController();
+  // Form Controllers & State
+  final _usernameController = TextEditingController();
+  DateTime _dateOfBirth = DateTime(2000, 1, 1); // Defaults to Jan 1, 2000 as in the screenshot
+  final _confirmPasswordController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+  // TODO: Replace with your actual Cloudinary details
+  final String cloudinaryCloudName = 'YOUR_CLOUD_NAME';
+  final String cloudinaryUploadPreset = 'YOUR_UPLOAD_PRESET';
+    const Color(0xFF2196F3), // Blue
+    const Color(0xFFF44336), // Red
+    const Color(0xFF4CAF50), // Green
+    const Color(0xFFFF9800), // Orange
+    const Color(0xFF9C27B0), // Purple
+    const Color(0xFFE91E63), // Pink (default in screenshot)
+    _confirmPasswordController.dispose();
+    const Color(0xFF3F51B5), // Indigo
+  ];
+
+  late Color _selectedAvatarColor;
+
+  // Cloudinary Details
+  final String cloudinaryCloudName = 'YOUR_CLOUD_NAME';
+  final String cloudinaryUploadPreset = 'YOUR_UPLOAD_PRESET';
+
+  @override
+  void initState() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    
+    if (image != null) {
+      setState(() {
+        _profileImage = File(image.path);
+      });
+    }
+  }
+
+  Future<String?> _uploadToCloudinary() async {
+    if (_profileImage == null) return null;
+
+    try {
+      final url = Uri.parse('https://api.cloudinary.com/v1_1/$cloudinaryCloudName/image/upload');
+      final request = http.MultipartRequest('POST', url)
+        ..fields['upload_preset'] = cloudinaryUploadPreset
+        ..files.add(await http.MultipartFile.fromPath('file', _profileImage!.path));
+
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.bytesToString();
+        final jsonResponse = jsonDecode(responseData);
+        return jsonResponse['secure_url'];
+      }
+    } catch (_) {
+      // Return null on upload failure or configuration error
+    }
+    return null;
+    return null;
+  }
+  Future<void> _submitData() async {
+    setState(() => _isLoading = true);
+    setState(() => _isLoading = true);
+      String? profileImageUrl = await _uploadToCloudinary();
+      final String username = _usernameController.text.trim();
+      final String username = _usernameController.text.trim();
+      await FirebaseFirestore.instance.collection('userdetails').doc(username).set({
+      await FirebaseFirestore.instance.collection('userdetails').doc(username).set({
+        'email': widget.userCredential.user?.email ?? '',
+        'email': widget.userCredential.user?.email ?? '',
+        'dateOfBirth': _dateOfBirth.toIso8601String(),
+        'avatarColor': '#${_selectedAvatarColor.value.toRadixString(16).substring(2).toUpperCase()}',
+        'avatarColor': '#${_selectedAvatarColor.value.toRadixString(16).substring(2).toUpperCase()}',
+        'createdAt': FieldValue.serverTimestamp(),
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registration Complete!')),
+        const SnackBar(content: Text('Registration Complete!')),
+      Navigator.pop(context);
+        'profilePictureUrl': profileImageUrl ?? '',
+        'avatarColor': '#${_selectedAvatarColor.value.toRadixString(16).substring(2).toUpperCase()}',
+      _showError('Registration failed: $e');
+      if (mounted) setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
+    }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registration Complete!')),
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+      // 3. Navigate directly to Home Page and clear previous history
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      _showError('Registration failed: $e');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    if (e is FirebaseAuthException) {
+      switch (e.code) {
+        case 'user-not-found':
+        case 'wrong-password':
+        case 'invalid-credential':
+          return 'Invalid email or password. Please try again.';
+        case 'user-disabled':
+          return 'This account has been disabled. Please contact support.';
+        case 'email-already-in-use':
+          return 'This email address is already registered. Try logging in.';
+        case 'invalid-email':
+          return 'Please enter a valid email address.';
+        case 'weak-password':
+          return 'Your password is too weak. Please use at least 6 characters.';
+        case 'operation-not-allowed':
+          return 'Sign-in option not enabled. Please contact support.';
+        case 'network-request-failed':
+          return 'Network connection error. Please check your internet connection.';
+        case 'credential-already-in-use':
+          return 'This account is already linked to another user.';
+        case 'account-exists-with-different-credential':
+          return 'An account already exists with this email but using a different sign-in method.';
+        case 'provider-already-linked':
+          return 'This account is already linked to the provider.';
+        default:
+          if (message.contains(']')) {
+            message = message.substring(message.indexOf(']') + 1).trim();
+          } else if (e.message != null) {
+            message = e.message!;
+          }
+      }
+    } else if (e is FirebaseException) {
+      switch (e.code) {
+        case 'permission-denied':
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF999999)),
+        suffixIcon: IconButton(
+          icon: Icon(
+            obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+            color: const Color(0xFF808080),
+          ),
+          onPressed: onToggle,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5), 
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.white, width: 2.0),
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 18),
+      ),
+    );
+  }
+
+  Widget _buildNextButton({bool isSubmit = false}) {
+    return ElevatedButton(
+      onPressed: _isLoading ? null : _nextPage,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF4285F4),
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 0,
+        disabledBackgroundColor: const Color(0xFF333333),
+      ),
+      child: _isLoading
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+            )
+          : Text(
+              isSubmit ? 'Complete Registration' : 'Next',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  icon: Icon(
+                    _obscureConfirmPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    color: const Color(0xFF888888),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureConfirmPassword = !_obscureConfirmPassword;
+                    });
+                  },
+                ),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+              ),
+            ),
+          ),
+          const SizedBox(height: 48),
+          
+          _buildNextButton(isSubmit: true),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  // Next / Submit Button
+  Widget _buildNextButton({bool isSubmit = false}) {
+    return Container(
+      width: double.infinity,
+      height: 60,
+      decoration: BoxDecoration(
+        color: const Color(0xFF15181F),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextButton(
+        onPressed: _isLoading ? null : _nextPage,
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        ),
+        child: _isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF4285F4)),
+              )
+            : Text(
+                isSubmit ? 'Complete Registration' : 'Next',
+                style: const TextStyle(color: Color(0xFF4285F4), fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+      ),
+    );
+  }
+}

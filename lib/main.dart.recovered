@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'firebase_options.dart';
+import 'auth_page.dart';
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+class MyApp extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'PostMark',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4285F4),
+          brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4285F4),
+          brightness: Brightness.dark,
+      home: const AuthPage(),
+        useMaterial3: true,
+      ),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              backgroundColor: Color(0xFF111111),
+              body: Center(
+                child: CircularProgressIndicator(color: Color(0xFF4285F4)),
+              ),
+            );
+          }
+          if (snapshot.hasData && snapshot.data != null) {
+            // User is signed into Firebase! Check if they completed their profile
+            return FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('userdetails')
+                  .where('email', isEqualTo: snapshot.data!.email)
+                  .limit(1)
+                  .get(),
+              builder: (context, firestoreSnapshot) {
+                if (firestoreSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Scaffold(
+                    backgroundColor: Color(0xFF111111),
+                    body: Center(
+                      child: CircularProgressIndicator(color: Color(0xFF4285F4)),
+                    ),
+                  );
+                }
+                if (firestoreSnapshot.hasData && firestoreSnapshot.data!.docs.isNotEmpty) {
+                  // Profile is completed! Go directly to dashboard
+                  return const HomePage();
+                }
+                // Profile not completed! Go to sign in to trigger completion
+                return const AuthPage();
+              },
+            );
+          }
+          // Not signed in! Go to sign in screen
+          return const AuthPage();
+        },
+      ),
+    );
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "1063270362786",
+    "project_id": "postmark-telemetry",
+    "storage_bucket": "postmark-telemetry.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063270362786:android:338b2bb3956c7694c9f1fb",
+        "android_client_info": {
+          "package_name": "com.example.postmark"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7qqWUOsuyTKXmbW0-La_cf-HtcEAo5LA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063270362786-i06hk848i81p2ordbv91kjodppjf1lho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1063270362786-d002fsnhcs3s01tq0nv0ejgd0qhj9omp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.postmark"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
