@@ -1022,7 +1022,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 12),
                         Container(
-                          maxWidth: 420,
+                          constraints: const BoxConstraints(maxWidth: 420),
                           decoration: BoxDecoration(
                             color: const Color(0xFF1C1C1E),
                             borderRadius: BorderRadius.circular(30),
